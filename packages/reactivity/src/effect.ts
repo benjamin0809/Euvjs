@@ -1,9 +1,10 @@
+import { ComputedRefImpl } from './computed'
 import { Dep, createDep } from './dep'
 type KeyToDepMap = Map<any, Dep>
 
 const targetMap = new WeakMap<any, KeyToDepMap>()
 export let activeEffect: ReactiveEffect | undefined
-
+export type EffectScheduler = (...args: any[]) => any
 export function track(target: object, prop: string | symbol) {
   console.log('track: 收集依赖')
   if (!activeEffect) {
@@ -41,12 +42,17 @@ export function effect<T = any>(fn: () => T) {
 }
 
 export class ReactiveEffect<T = any> {
-  constructor(public fn: () => T) {}
-
+  constructor(
+    public fn: () => T,
+    public scheduler: EffectScheduler | null = null
+  ) {}
+  computed?: ComputedRefImpl<T>
   run() {
     activeEffect = this
     return this.fn()
   }
+
+  stop() {}
 }
 
 export function trackEffects(dep: Dep) {
@@ -54,13 +60,26 @@ export function trackEffects(dep: Dep) {
 }
 
 export function triggerEffect(effect: ReactiveEffect) {
-  effect.run()
+  if (effect.scheduler) {
+    effect.scheduler()
+  } else {
+    effect.run()
+  }
 }
 
 export function triggerEffects(dep: Dep) {
-//   const effects = Array.from(dep)
+  //   const effects = Array.from(dep)
   const effects = Array.isArray(dep) ? dep : [...dep]
+  // 先触发所有的计算属性依赖，在触发所有的非计算属性的依赖
   effects.forEach(effect => {
-    triggerEffect(effect)
+    if(effect.computed) {
+      triggerEffect(effect)
+    }
+  })
+
+  effects.forEach(effect => {
+     if (!effect.computed) {
+       triggerEffect(effect)
+     }
   })
 }
