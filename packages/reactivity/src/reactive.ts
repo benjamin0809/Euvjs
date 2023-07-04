@@ -42,7 +42,7 @@ export function toReactive<T extends unknown>(value: T) {
 /**
  * 判断一个数据是否为 Reactive
  */
-export function isReactive(value: unknown): boolean {
+export function isReactive(value: any): boolean {
   return (value && value[ReactiveFlags.IS_REACTIVE]) === true
 }
 

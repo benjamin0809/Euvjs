@@ -21,6 +21,28 @@ export default [
         format: 'iife',
         // 变量名
         name: 'Euv'
+      },
+      // 导出 umd 模式的包
+      {
+        // 开启 SourceMap
+        sourcemap: true,
+        // 导出的文件地址
+        file: './packages/euv/dist/euv.umd.js',
+        // 生成的包格式：一个自动执行的功能，适合作为<script>标签
+        format: 'umd',
+        // 变量名
+        name: 'Euv'
+      },
+      // 导出 esm 模式的包
+      {
+        // 开启 SourceMap
+        sourcemap: true,
+        // 导出的文件地址
+        file: './packages/euv/dist/euv.esm.js',
+        // 生成的包格式：一个自动执行的功能，适合作为<script>标签
+        format: 'esm',
+        // 变量名
+        name: 'Euv'
       }
     ],
     // 插件
