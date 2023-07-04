@@ -1,3 +1,4 @@
+import { isObject } from "@euv/shared";
 import { mutableHandler } from "./baseHandler";
 
 /**
@@ -22,4 +23,13 @@ function createReactiveObject(
     const p = new Proxy(target, baseHandlers)
     proxyMap.set(target, p)
     return p
+}
+
+/**
+ * 转为reactive对象
+ * @param value 数据（）
+ * @returns 
+ */
+export function toReactive<T extends unknown>(value : T) {
+  return isObject(value) ? reactive(value as object) : value
 }
