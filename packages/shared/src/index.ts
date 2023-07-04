@@ -41,3 +41,8 @@ const onRE = /^on[^a-z]/
  * 是否 on 开头
  */
 export const isOn = (key: string) => onRE.test(key)
+
+/**
+ * 空函数
+ */
+export function noop() {}
