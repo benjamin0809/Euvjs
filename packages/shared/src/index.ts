@@ -46,3 +46,7 @@ export const isOn = (key: string) => onRE.test(key)
  * 空函数
  */
 export function noop() {}
+
+export enum baseFlags {
+  VNODE = '__v_isVNode'
+}

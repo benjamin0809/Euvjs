@@ -1,2 +1,2 @@
 export { reactive, effect, ref, computed } from '@euv/reactivity'
-export { queuePreFlushCb, watch } from '@euv/runtime-core'
+export { queuePreFlushCb, watch, h } from '@euv/runtime-core'
